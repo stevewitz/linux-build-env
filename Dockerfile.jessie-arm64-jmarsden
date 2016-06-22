@@ -1,0 +1,11 @@
+FROM debian-arm64:jessie
+RUN export uid=20052 gid=20005 && \
+    mkdir -p /home/jmarsden && \
+    echo "jmarsden:x:${uid}:${gid}:,,,:/home/jmarsden:/bin/bash" >> /etc/passwd && \
+    echo "jmarsden:x:${uid}:" >> /etc/group && \
+    echo "jmarsden ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/jmarsden && \
+    chmod 0440 /etc/sudoers.d/jmarsden && \
+    chown jmarsden:${gid} -R /home/jmarsden
+WORKDIR /home/jmarsden
+USER jmarsden
+CMD ["/bin/bash"]

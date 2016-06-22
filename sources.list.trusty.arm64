@@ -1,0 +1,15 @@
+deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ trusty main restricted
+deb-src [arch=arm64]  http://ports.ubuntu.com/ubuntu-ports/ trusty main restricted
+
+deb [arch=arm64]  http://ports.ubuntu.com/ubuntu-ports/ trusty-updates main restricted
+deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ trusty-updates main restricted
+
+deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ trusty universe
+deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ trusty universe
+deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ trusty-updates universe
+deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ trusty-updates universe
+
+deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ trusty multiverse
+deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ trusty multiverse
+deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ trusty-updates multiverse
+deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ trusty-updates multiverse

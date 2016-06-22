@@ -1,0 +1,15 @@
+deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports/ vivid main restricted
+deb-src [arch=armhf]  http://ports.ubuntu.com/ubuntu-ports/ vivid main restricted
+
+deb [arch=armhf]  http://ports.ubuntu.com/ubuntu-ports/ vivid-updates main restricted
+deb-src [arch=armhf] http://ports.ubuntu.com/ubuntu-ports/ vivid-updates main restricted
+
+deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports/ vivid universe
+deb-src [arch=armhf] http://ports.ubuntu.com/ubuntu-ports/ vivid universe
+deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports/ vivid-updates universe
+deb-src [arch=armhf] http://ports.ubuntu.com/ubuntu-ports/ vivid-updates universe
+
+deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports/ vivid multiverse
+deb-src [arch=armhf] http://ports.ubuntu.com/ubuntu-ports/ vivid multiverse
+deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports/ vivid-updates multiverse
+deb-src [arch=armhf] http://ports.ubuntu.com/ubuntu-ports/ vivid-updates multiverse

@@ -1,0 +1,21 @@
+version: '2'
+services:
+  leap_libraries:
+    build:
+      context: .
+      dockerfile: Dockerfile.${DISTRO}-${ARCH}-${USER}
+    volumes:
+      # Home directory
+      - /home/${USER}:/home/${USER}
+      # Dependent libraries
+      - /opt/local/Libraries-${ARCH}/protobuf-3.0.0.2:/opt/local/Libraries/protobuf-3.0.0.2:ro
+      - /opt/local/Libraries-${ARCH}/curl-7.36.0:/opt/local/Libraries/curl-7.36.0:ro
+      - /opt/local/Libraries-${ARCH}/zlib-1.2.8:/opt/local/Libraries/zlib-1.2.8:ro
+      - /opt/local/Libraries-${ARCH}/openssl:/opt/local/Libraries/openssl:ro
+      - /opt/local/Libraries-${ARCH}/boost_1_55_0:/opt/local/Libraries/boost_1_55_0:ro
+      # Host libraries
+      - /opt/local/Libraries-x64-trusty:/opt/local/Libraries-x64
+      # Install directory
+      - /opt/local/Libraries-${ARCH}-${DISTRO}:/opt/local/Libraries
+    working_dir: /home/${USER}/arm-linux-build/build
+    command: ../scripts/leap-libraries.sh
