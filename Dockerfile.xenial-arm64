@@ -1,0 +1,24 @@
+FROM ubuntu:xenial
+
+ADD sources.list.xenial.arm64 /tmp/sources.list.arm64
+RUN sed -i.bak "s/\([bc]\) http/\1 [arch=amd64] http/g" /etc/apt/sources.list && cat /tmp/sources.list.arm64 >> /etc/apt/sources.list && rm /tmp/sources.list.arm64 && dpkg --add-architecture arm64
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-get install -y \
+  build-essential \
+  curl \
+  libncurses5-dev \
+  libdbus-1-dev \
+  libdbus-1-dev:arm64 \
+  libgl1-mesa-dev:arm64 \
+  libglu1-mesa-dev:arm64 \
+  libglu1-mesa-dev:arm64 \
+  g++-aarch64-linux-gnu \
+  git-core \
+  pkg-config \
+  python \
+  sudo \
+  vim-nox
+RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.5/cmake-3.5.2.tar.gz && tar xfz cmake-3.5.2.tar.gz && cd cmake-3.5.2 && ./configure && make -j 4 && make install && cd /tmp && rm -fr cmake-3.5.2* )
+ADD bin/qemu-aarch64-static /usr/bin/qemu-aarch64-static
+ENV ARCH arm64
+ENV CROSS_COMPILE aarch64-linux-gnu-
+CMD ["/bin/bash"]
