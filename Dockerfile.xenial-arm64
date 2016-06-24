@@ -11,7 +11,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-g
   libgl1-mesa-dev:arm64 \
   libglu1-mesa-dev:arm64 \
   libglu1-mesa-dev:arm64 \
-  g++-aarch64-linux-gnu \
+  g++-4.9-aarch64-linux-gnu \
   git-core \
   pkg-config \
   python \
@@ -19,6 +19,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-g
   vim-nox
 RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.5/cmake-3.5.2.tar.gz && tar xfz cmake-3.5.2.tar.gz && cd cmake-3.5.2 && ./configure && make -j 4 && make install && cd /tmp && rm -fr cmake-3.5.2* )
 ADD bin/qemu-aarch64-static /usr/bin/qemu-aarch64-static
+RUN update-alternatives --install /usr/bin/aarch64-linux-gnu-gcc aarch64-linux-gnu-gcc /usr/bin/aarch64-linux-gnu-gcc-4.9 60 --slave /usr/bin/aarch64-linux-gnu-g++ aarch64-linux-gnu-g++ /usr/bin/aarch64-linux-gnu-g++-4.9 && update-alternatives --config aarch64-linux-gnu-gcc
 ENV ARCH arm64
 ENV CROSS_COMPILE aarch64-linux-gnu-
 CMD ["/bin/bash"]

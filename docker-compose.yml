@@ -3,7 +3,7 @@ services:
   leap_libraries:
     build:
       context: .
-      dockerfile: Dockerfile.${DISTRO}-${ARCH}-${USER}
+      dockerfile: ${USER}/Dockerfile.${DISTRO}-${ARCH}-${USER}
     volumes:
       # Home directory
       - /home/${USER}:/home/${USER}
@@ -12,10 +12,26 @@ services:
       - /opt/local/Libraries-${ARCH}/curl-7.36.0:/opt/local/Libraries/curl-7.36.0:ro
       - /opt/local/Libraries-${ARCH}/zlib-1.2.8:/opt/local/Libraries/zlib-1.2.8:ro
       - /opt/local/Libraries-${ARCH}/openssl:/opt/local/Libraries/openssl:ro
-      - /opt/local/Libraries-${ARCH}/boost_1_55_0:/opt/local/Libraries/boost_1_55_0:ro
       # Host libraries
       - /opt/local/Libraries-x64-trusty:/opt/local/Libraries-x64
       # Install directory
       - /opt/local/Libraries-${ARCH}-${DISTRO}:/opt/local/Libraries
     working_dir: /home/${USER}/arm-linux-build/build
     command: ../scripts/leap-libraries.sh
+  user64:
+    build:
+      context: .
+      dockerfile: ${USER}/Dockerfile.${DISTRO}-arm64-${USER}
+    volumes:
+      # Home directory
+      - /home/${USER}:/home/${USER}
+      # Dependent libraries
+      - /opt/local/Libraries-arm32:/opt/local/Libraries-arm32:ro
+      - /opt/local/Libraries-arm64-wily:/opt/local/Libraries-arm64-wily:ro
+      - /opt/local/Libraries-arm64-jessie:/opt/local/Libraries-arm64-jessie:ro
+      # Host libraries
+      - /opt/local/Libraries-x64-trusty:/opt/local/Libraries-x64
+      # Install directory
+      - /opt/local/Libraries-arm64-${DISTRO}:/opt/local/Libraries-arm64
+    working_dir: /home/${USER}/platform/build
+    command: /bin/bash
