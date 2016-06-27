@@ -1,0 +1,23 @@
+#!/bin/bash
+
+image=${@: -1}
+arch=$(echo ${image} | cut -d\- -f2-)
+distro=$(echo ${arch} | cut -d: -f2-)
+arch=$(echo ${arch} | cut -d: -f1)
+user=$(whoami)
+libraries="libraries-${arch}-${distro}"
+dockerfile=.Dockerfile.${image}-${user}
+uid=$(id -u)
+gid=$(id -g)
+cat > ${dockerfile} <<-END_OF_DOCKERFILE
+FROM ${image}
+RUN \
+	echo "${user}:x:${uid}:${gid}:,,,:/home/${user}:/bin/bash" >> /etc/passwd && \
+	echo "${user}:x:${uid}:" >> /etc/group && \
+	echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${user} && \
+	chmod 0440 /etc/sudoers.d/${user}
+WORKDIR /home/${user}
+USER ${user}
+END_OF_DOCKERFILE
+docker build -t ${image}-${user} -f ${dockerfile} . > /dev/null
+docker run -v ${libraries}:/opt/local/Libraries-${arch}:ro -v /home/${USER}:/home/${USER} --hostname="${distro}-${arch}-build-${user}" $@-${user}

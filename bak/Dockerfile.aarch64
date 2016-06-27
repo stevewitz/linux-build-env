@@ -1,7 +1,0 @@
-FROM ubuntu:latest
-
-MAINTAINER Jonathan Marsden jmarsden@leapmotion.com
-
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get -y update && apt-get -y upgrade && apt-get -y install module-init-tools debootstrap qemu-utils qemu qemu-user-static
-# RUN mkdir /srv/chroots && qemu-img create -f qcow2 /srv/chroots/trusty.qcow2 32G
