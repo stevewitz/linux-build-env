@@ -23,4 +23,3 @@ RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.5/cmake-3.5.2.tar.gz && tar
 ADD bin/qemu-arm-static /usr/bin/qemu-arm-static
 ENV ARCH arm32
 ENV CROSS_COMPILE arm-linux-gnueabihf-
-CMD ["/bin/bash"]

@@ -4,22 +4,32 @@ RUN dpkg --add-architecture arm64
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade && apt-get install -y \
   build-essential \
   curl \
-  libncurses5-dev \
+  git-core \
   libdbus-1-dev \
   libdbus-1-dev:arm64 \
   libgl1-mesa-dev:arm64 \
   libglu1-mesa-dev:arm64 \
   libglu1-mesa-dev:arm64 \
-  git-core \
+  libncurses5-dev \
+  libpcre3:arm64 \
   pkg-config \
   python \
   sudo \
   vim-nox
-ADD crosstools-jessie.list /etc/apt/sources.list.d/crosstools.list
-RUN curl -sL http://emdebian.org/tools/debian/emdebian-toolchain-archive.key | sudo apt-key add -
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y crossbuild-essential-arm64
 RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.5/cmake-3.5.2.tar.gz && tar xfz cmake-3.5.2.tar.gz && cd cmake-3.5.2 && ./configure && make -j 4 && make install && cd /tmp && rm -fr cmake-3.5.2* )
+RUN curl -sL https://releases.linaro.org/14.11/components/toolchain/binaries/aarch64-linux-gnu/gcc-linaro-4.9-2014.11-x86_64_aarch64-linux-gnu.tar.xz | tar xJ -C /opt && \
+    update-alternatives \
+      --install /usr/bin/aarch64-linux-gnu-gcc aarch64-linux-gnu-gcc /opt/gcc-linaro-4.9-2014.11-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc 60 \
+      --slave /usr/bin/aarch64-linux-gnu-g++ aarch64-linux-gnu-g++ /opt/gcc-linaro-4.9-2014.11-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++ \
+      --slave /usr/bin/aarch64-linux-gnu-ar aarch64-linux-gnu-ar /opt/gcc-linaro-4.9-2014.11-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-ar \
+      --slave /usr/bin/aarch64-linux-gnu-ld aarch64-linux-gnu-ld /opt/gcc-linaro-4.9-2014.11-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-ld \
+      --slave /usr/bin/aarch64-linux-gnu-nm aarch64-linux-gnu-nm /opt/gcc-linaro-4.9-2014.11-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-nm \
+      --slave /usr/bin/aarch64-linux-gnu-objcopy aarch64-linux-gnu-objcopy /opt/gcc-linaro-4.9-2014.11-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-objcopy \
+      --slave /usr/bin/aarch64-linux-gnu-objdump aarch64-linux-gnu-objdump /opt/gcc-linaro-4.9-2014.11-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-objdump \
+      --slave /usr/bin/aarch64-linux-gnu-ranlib aarch64-linux-gnu-ranlib /opt/gcc-linaro-4.9-2014.11-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-ranlib \
+      --slave /usr/bin/aarch64-linux-gnu-strip aarch64-linux-gnu-strip /opt/gcc-linaro-4.9-2014.11-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-strip && \
+    update-alternatives --config aarch64-linux-gnu-gcc && \
+    (cd /opt/gcc-linaro-4.9-2014.11-x86_64_aarch64-linux-gnu/libc/usr/lib64 && ln /lib/aarch64-linux-gnu/libdbus-1.so.3.8.13 libdbus-1.so)
 ADD bin/qemu-aarch64-static /usr/bin/qemu-aarch64-static
 ENV ARCH arm64
 ENV CROSS_COMPILE aarch64-linux-gnu-
-CMD ["/bin/bash"]

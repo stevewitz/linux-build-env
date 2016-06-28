@@ -20,4 +20,4 @@ WORKDIR /home/${user}
 USER ${user}
 END_OF_DOCKERFILE
 docker build -t ${image}-${user} -f ${dockerfile} . > /dev/null
-docker run -v ${libraries}:/opt/local/Libraries-${arch}:ro -v /home/${USER}:/home/${USER} --hostname="${distro}-${arch}-build-${user}" $@-${user}
+docker run -v ${libraries}:/opt/local/Libraries-${arch} -v /home/${USER}:/home/${USER} --hostname="${distro}-${arch}-build-${user}" $@-${user}

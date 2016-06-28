@@ -1,6 +1,6 @@
 #!/bin/sh
 
-INSTALL_DIR=/opt/local/Libraries
+INSTALL_DIR=/opt/local/Libraries-arm64
 
 if [ "$ARCH" = "arm32" ]; then
   export CROSS_COMPILE=arm-linux-gnueabihf-
@@ -58,7 +58,7 @@ boost_build() {
     rm -fr boost_${BOOST_VERSION}
     tar xfj $BOOST_TAR_PATH
     cd boost_${BOOST_VERSION}
-    echo "using gcc : arm : ${CROSS_COMPILE}g++-4.9 ;" >> tools/build/v2/user-config.jam
+    echo "using gcc : arm : ${CROSS_COMPILE}g++ ;" >> tools/build/v2/user-config.jam
     ./bootstrap.sh
     sudo ./b2 --prefix=${INSTALL_PATH} --build-dir=./tmp link=static threading=multi variant=release cflags=-fPIC cxxflags=-fPIC toolset=gcc-arm target-os=linux --without-mpi --without-python install
     cd ..
