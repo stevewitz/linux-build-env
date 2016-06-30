@@ -1,11 +1,13 @@
 #!/bin/sh
 
-INSTALL_DIR=/opt/local/Libraries-arm64
-
 if [ "$ARCH" = "arm32" ]; then
   export CROSS_COMPILE=arm-linux-gnueabihf-
-else
+  INSTALL_DIR=/opt/local/Libraries-arm32
+elif [ "$ARCH" = "arm64" ]; then
   export CROSS_COMPILE=aarch64-linux-gnu-
+  INSTALL_DIR=/opt/local/Libraries-arm64
+else
+  INSTALL_DIR=/opt/local/Libraries-x64
 fi
 
 leap_build() {
@@ -24,20 +26,30 @@ leap_build() {
       git fetch
     fi
     git checkout v$2
-    if [ -d standard ]; then
-      TOOLCHAIN=$(pwd)/standard/toolchain-${ARCH}.cmake
-    else
-      TOOLCHAIN=$(pwd)/toolchain-${ARCH}.cmake
+    if [ "$ARCH" = "arm32" -o "$ARCH" = "arm64" ]; then
+      if [ -d standard ]; then
+        TOOLCHAIN=$(pwd)/standard/toolchain-${ARCH}.cmake
+      else
+        TOOLCHAIN=$(pwd)/toolchain-${ARCH}.cmake
+      fi
     fi
     rm -fr build-v$2
     mkdir -p build-v$2
     cd build-v$2
-    cmake -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} \
-          -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/${INSTALL_NAME}-$2 \
-	  -DCMAKE_PREFIX_PATH:PATH=${INSTALL_DIR} \
-          -DCMAKE_BUILD_TYPE=Release \
-          -DBOOST_ROOT:PATH=${INSTALL_DIR}/boost_1_55_0 \
-          .. && make -j 4 && ./bin/$3 && sudo make install
+    if [ "$ARCH" = "arm32" -o "$ARCH" = "arm64" ]; then
+      cmake -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} \
+            -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/${INSTALL_NAME}-$2 \
+            -DCMAKE_PREFIX_PATH:PATH=${INSTALL_DIR} \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBOOST_ROOT:PATH=${INSTALL_DIR}/boost_1_55_0 \
+            .. && make -j 4 && ./bin/$3 && sudo make install
+    else
+      cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/${INSTALL_NAME}-$2 \
+            -DCMAKE_PREFIX_PATH:PATH=${INSTALL_DIR} \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBOOST_ROOT:PATH=${INSTALL_DIR}/boost_1_55_0 \
+            .. && make -j 4 && ./bin/$3 && sudo make install
+    fi
     cd ../..
   else
     echo "(already installed)"
@@ -58,9 +70,14 @@ boost_build() {
     rm -fr boost_${BOOST_VERSION}
     tar xfj $BOOST_TAR_PATH
     cd boost_${BOOST_VERSION}
-    echo "using gcc : arm : ${CROSS_COMPILE}g++ ;" >> tools/build/v2/user-config.jam
-    ./bootstrap.sh
-    sudo ./b2 --prefix=${INSTALL_PATH} --build-dir=./tmp link=static threading=multi variant=release cflags=-fPIC cxxflags=-fPIC toolset=gcc-arm target-os=linux --without-mpi --without-python install
+    if [ "$ARCH" = "arm32" -o "$ARCH" = "arm64" ]; then
+      echo "using gcc : arm : ${CROSS_COMPILE}g++ ;" >> tools/build/v2/user-config.jam
+      ./bootstrap.sh
+      sudo ./b2 --prefix=${INSTALL_PATH} --build-dir=./tmp link=static threading=multi variant=release cflags=-fPIC cxxflags=-fPIC toolset=gcc-arm target-os=linux --without-mpi --without-python install
+    else
+      ./bootstrap.sh
+      sudo ./b2 --prefix=${INSTALL_PATH} --build-dir=./tmp link=static threading=multi variant=release cflags=-fPIC cxxflags=-fPIC target-os=linux --without-mpi --without-python install
+    fi
     cd ..
   else
     echo "(already installed)"

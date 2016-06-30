@@ -20,4 +20,9 @@ WORKDIR /home/${user}
 USER ${user}
 END_OF_DOCKERFILE
 docker build -t ${image}-${user} -f ${dockerfile} . > /dev/null
-docker run -v ${libraries}:/opt/local/Libraries-${arch} -v /home/${USER}:/home/${USER} --hostname="${distro}-${arch}-build-${user}" $@-${user}
+if [ "$arch" = "x86_64" ]; then
+  hyphen_arch="-x64"
+else
+  hyphen_arch="-${arch}"
+fi
+docker run -v ${libraries}:/opt/local/Libraries${hyphen_arch} -v /home/${USER}:/home/${USER} --hostname="${distro}${hyphen_arch}-${user}" $@-${user}

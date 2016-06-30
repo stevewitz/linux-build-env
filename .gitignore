@@ -1,2 +1,4 @@
-build/*
+build*/
 .Dockerfile.*
+.*.swp
+.*.swo

@@ -1,0 +1,18 @@
+FROM ubuntu:xenial
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-get install -y \
+  build-essential \
+  ccache \
+  curl \
+  libncurses5-dev \
+  libdbus-1-dev \
+  libgl1-mesa-dev \
+  libglu1-mesa-dev \
+  libglu1-mesa-dev \
+  g++-4.9 \
+  git-core \
+  pkg-config \
+  python \
+  sudo \
+  vim-nox
+RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.5/cmake-3.5.2.tar.gz && tar xfz cmake-3.5.2.tar.gz && cd cmake-3.5.2 && ./configure && make -j 4 && make install && cd /tmp && rm -fr cmake-3.5.2*)
