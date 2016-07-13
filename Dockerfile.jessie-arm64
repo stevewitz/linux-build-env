@@ -28,7 +28,7 @@ RUN curl -sL https://releases.linaro.org/14.11/components/toolchain/binaries/aar
       --slave /usr/bin/aarch64-linux-gnu-objdump aarch64-linux-gnu-objdump /opt/gcc-linaro-4.9-2014.11-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-objdump \
       --slave /usr/bin/aarch64-linux-gnu-ranlib aarch64-linux-gnu-ranlib /opt/gcc-linaro-4.9-2014.11-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-ranlib \
       --slave /usr/bin/aarch64-linux-gnu-strip aarch64-linux-gnu-strip /opt/gcc-linaro-4.9-2014.11-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-strip && \
-    update-alternatives --config aarch64-linux-gnu-gcc && \
+    update-alternatives --auto aarch64-linux-gnu-gcc && \
     (cd /opt/gcc-linaro-4.9-2014.11-x86_64_aarch64-linux-gnu/libc/usr/lib64 && ln /lib/aarch64-linux-gnu/libdbus-1.so.3.8.13 libdbus-1.so)
 ADD bin/qemu-aarch64-static /usr/bin/qemu-aarch64-static
 ENV ARCH arm64

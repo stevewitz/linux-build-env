@@ -9,6 +9,7 @@ libraries="libraries-${arch}-${distro}"
 dockerfile=.Dockerfile.${image}-${user}
 uid=$(id -u)
 gid=$(id -g)
+cd $(dirname $(readlink -f $0))/..
 cat > ${dockerfile} <<-END_OF_DOCKERFILE
 FROM ${image}
 RUN \

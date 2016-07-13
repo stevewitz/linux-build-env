@@ -1,0 +1,15 @@
+deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ wily main restricted
+deb-src [arch=arm64]  http://ports.ubuntu.com/ubuntu-ports/ wily main restricted
+
+deb [arch=arm64]  http://ports.ubuntu.com/ubuntu-ports/ wily-updates main restricted
+deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ wily-updates main restricted
+
+deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ wily universe
+deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ wily universe
+deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ wily-updates universe
+deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ wily-updates universe
+
+deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ wily multiverse
+deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ wily multiverse
+deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ wily-updates multiverse
+deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ wily-updates multiverse
