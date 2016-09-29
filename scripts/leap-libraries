@@ -41,13 +41,17 @@ leap_build() {
             -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/${INSTALL_NAME}-$2 \
             -DCMAKE_PREFIX_PATH:PATH=${INSTALL_DIR} \
             -DCMAKE_BUILD_TYPE=Release \
-            -DBOOST_ROOT:PATH=${INSTALL_DIR}/boost_1_55_0 \
+            -DZLIB_ROOT_DIR:PATH=${INSTALL_DIR}/zlib-1.2.8 \
+            -DCURL_ROOT_DIR:PATH=${INSTALL_DIR}/curl-7.36.0 \
+            -DBOOST_ROOT:PATH=${INSTALL_DIR}/boost_${BOOST_VERSION} \
             .. && make -j 4 && ./bin/$3 && sudo make install
     else
       cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/${INSTALL_NAME}-$2 \
             -DCMAKE_PREFIX_PATH:PATH=${INSTALL_DIR} \
             -DCMAKE_BUILD_TYPE=Release \
-            -DBOOST_ROOT:PATH=${INSTALL_DIR}/boost_1_55_0 \
+            -DZLIB_ROOT_DIR:PATH=${INSTALL_DIR}/zlib-1.2.8 \
+            -DCURL_ROOT_DIR:PATH=${INSTALL_DIR}/curl-7.36.0 \
+            -DBOOST_ROOT:PATH=${INSTALL_DIR}/boost_${BOOST_VERSION} \
             .. && make -j 4 && ./bin/$3 && sudo make install
     fi
     cd ../..
@@ -85,12 +89,12 @@ boost_build() {
 }
 
 boost_build 1.55.0
-leap_build "autowiring" 1.0.2 "AutowiringTest"
+leap_build "autowiring" 1.0.3 "AutowiringTest"
 leap_build "leapserial" 0.4.0 "LeapSerialTest"
 
 if [ $autowiring_CHANGED ] || [ $LeapSerial_CHANGED ]; then
  autowiring_LeapSerial_CHANGED=true
 fi
-leap_build "LeapResource" 0.1.0 "LeapResourceTest" $autowiring_LeapSerial_CHANGED
-leap_build "LeapHTTP" 0.1.0 "LeapHTTPTest" $autowiring_CHANGED
-leap_build "LeapIPC" 0.1.0 "LeapIPCTest" $autowiring_LeapSerial_CHANGED
+leap_build "LeapResource" 0.1.1 "LeapResourceTest" $autowiring_LeapSerial_CHANGED
+leap_build "LeapHTTP" 0.1.1 "LeapHTTPTest" $autowiring_CHANGED
+leap_build "LeapIPC" 0.1.1 "LeapIPCTest" $autowiring_LeapSerial_CHANGED
