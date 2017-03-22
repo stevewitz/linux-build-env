@@ -15,4 +15,4 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-g
   python \
   sudo \
   vim-nox
-RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.5/cmake-3.5.2.tar.gz && tar xfz cmake-3.5.2.tar.gz && cd cmake-3.5.2 && ./configure && make -j 4 && make install && cd /tmp && rm -fr cmake-3.5.2*)
+RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.7/cmake-3.7.2.tar.gz && tar xfz cmake-3.7.2.tar.gz && cd cmake-3.7.2 && ./configure && make -j 4 && make install && cd /tmp && rm -fr cmake-3.7.2*)

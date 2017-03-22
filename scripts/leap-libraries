@@ -69,13 +69,17 @@ boost_build() {
     echo "BUILDING"
     BOOST_TAR_PATH=boost_${BOOST_VERSION}.tar.bz2
     if [ ! -f $BOOST_TAR_PATH ]; then
-      curl -sLO http://ncu.dl.sourceforge.net/project/boost/boost/${BOOST_VERSION_DOT}/boost_${BOOST_VERSION}.tar.bz2
+      curl -sLO http://superb-sea2.dl.sourceforge.net/project/boost/boost/${BOOST_VERSION_DOT}/boost_${BOOST_VERSION}.tar.bz2
     fi
     rm -fr boost_${BOOST_VERSION}
     tar xfj $BOOST_TAR_PATH
     cd boost_${BOOST_VERSION}
     if [ "$ARCH" = "arm32" -o "$ARCH" = "arm64" ]; then
-      echo "using gcc : arm : ${CROSS_COMPILE}g++ ;" >> tools/build/v2/user-config.jam
+      if [ -f tools/build/v2/user-config.jam ]; then
+        echo "using gcc : arm : ${CROSS_COMPILE}g++ ;" >> tools/build/v2/user-config.jam
+      else
+        echo "using gcc : arm : ${CROSS_COMPILE}g++ ;" >> tools/build/src/user-config.jam
+      fi
       ./bootstrap.sh
       sudo ./b2 --prefix=${INSTALL_PATH} --build-dir=./tmp link=static threading=multi variant=release cflags=-fPIC cxxflags=-fPIC toolset=gcc-arm target-os=linux --without-mpi --without-python install
     else
@@ -88,7 +92,7 @@ boost_build() {
   fi
 }
 
-boost_build 1.55.0
+boost_build 1.63.0
 leap_build "autowiring" 1.0.3 "AutowiringTest"
 leap_build "leapserial" 0.4.0 "LeapSerialTest"
 
@@ -97,4 +101,4 @@ if [ $autowiring_CHANGED ] || [ $LeapSerial_CHANGED ]; then
 fi
 leap_build "LeapResource" 0.1.1 "LeapResourceTest" $autowiring_LeapSerial_CHANGED
 leap_build "LeapHTTP" 0.1.1 "LeapHTTPTest" $autowiring_CHANGED
-leap_build "LeapIPC" 0.1.1 "LeapIPCTest" $autowiring_LeapSerial_CHANGED
+leap_build "LeapIPC" 0.1.3 "LeapIPCTest" $autowiring_LeapSerial_CHANGED
