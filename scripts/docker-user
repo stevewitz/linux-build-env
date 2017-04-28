@@ -1,11 +1,31 @@
 #!/bin/bash
 
+
 image=${@: -1}
 arch=$(echo ${image} | cut -d\- -f2-)
 distro=$(echo ${arch} | cut -d: -f2-)
 arch=$(echo ${arch} | cut -d: -f1)
+variant=$(echo ${arch} | cut -d\- -f2-)
+if [ "${arch}" = "${variant}" ]; then
+  variant=""
+elif [[ "${variant}" ]]; then
+  variant="-${variant}"
+fi
+arch=$(echo ${arch} | cut -d\- -f1)
+if [ "${arch}" = "x86_64" ]; then
+  hyphen_arch="-x64"
+else
+  hyphen_arch="-${arch}"
+fi
 user=$(whoami)
-libraries="libraries-${arch}-${distro}"
+libraries="libraries-${arch}${variant}-${distro}"
+
+if [[ -z $(docker images -q ${image}) ]]; then
+  docker build -t ${image} -f Dockerfile.${distro}-${arch}${variant} . || exit
+fi
+if [[ -z $(docker volume ls | tail -n +2 | awk '{print $2}' | grep ${libraries} ) ]]; then
+  docker volume create --name ${libraries} || exit
+fi
 dockerfile=.Dockerfile.${image}-${user}
 uid=$(id -u)
 gid=$(id -g)
@@ -21,9 +41,4 @@ WORKDIR /home/${user}
 USER ${user}
 END_OF_DOCKERFILE
 docker build -t ${image}-${user} -f ${dockerfile} . > /dev/null
-if [ "$arch" = "x86_64" ]; then
-  hyphen_arch="-x64"
-else
-  hyphen_arch="-${arch}"
-fi
-docker run -v ${libraries}:/opt/local/Libraries${hyphen_arch} -v /home/${USER}:/home/${USER} --hostname="${distro}${hyphen_arch}-${user}" $@-${user}
+docker run -v ${libraries}:/opt/local/Libraries${hyphen_arch} -v /home/${USER}:/home/${USER} --hostname="${distro}${hyphen_arch}${variant}-${user}" $@-${user}
