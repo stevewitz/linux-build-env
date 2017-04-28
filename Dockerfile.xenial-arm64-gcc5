@@ -16,6 +16,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-g
   libtool \
   m4 \
   automake \
+  libpcre++-dev \
+  libpcre++0v5 \
+  byacc \
+  yodl \
   git-core \
   pkg-config \
   python \
