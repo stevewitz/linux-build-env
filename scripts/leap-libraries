@@ -101,4 +101,4 @@ if [ $autowiring_CHANGED ] || [ $LeapSerial_CHANGED ]; then
 fi
 leap_build "LeapResource" 0.1.1 "LeapResourceTest" $autowiring_LeapSerial_CHANGED
 leap_build "LeapHTTP" 0.1.1 "LeapHTTPTest" $autowiring_CHANGED
-leap_build "LeapIPC" 0.1.3 "LeapIPCTest" $autowiring_LeapSerial_CHANGED
+leap_build "LeapIPC" 0.1.4 "LeapIPCTest" $autowiring_LeapSerial_CHANGED
