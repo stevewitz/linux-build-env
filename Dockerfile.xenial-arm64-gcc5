@@ -13,6 +13,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-g
   libglu1-mesa-dev:arm64 \
   libxi-dev:arm64 \
   g++-5-aarch64-linux-gnu \
+  libtool \
+  m4 \
+  automake \
   git-core \
   pkg-config \
   python \
