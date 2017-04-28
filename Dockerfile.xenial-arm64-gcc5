@@ -12,12 +12,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-g
   libglu1-mesa-dev:arm64 \
   libglu1-mesa-dev:arm64 \
   libxi-dev:arm64 \
+  libpcre++-dev:arm64 \
+  libpcre++0v5:arm64 \
   g++-5-aarch64-linux-gnu \
   libtool \
   m4 \
   automake \
-  libpcre++-dev \
-  libpcre++0v5 \
   byacc \
   yodl \
   git-core \
