@@ -15,7 +15,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-g
   libpcre++-dev:arm64 \
   libpcre++0v5:arm64 \
   g++-5-aarch64-linux-gnu \
-  libtool \
+  libtool-bin \
   m4 \
   automake \
   byacc \
