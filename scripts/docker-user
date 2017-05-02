@@ -27,14 +27,12 @@ if [[ -z $(docker volume ls | tail -n +2 | awk '{print $2}' | grep ${libraries} 
   docker volume create --name ${libraries} || exit
 fi
 dockerfile=.Dockerfile.${image}-${user}
-uid=$(id -u)
-gid=$(id -g)
 cd $(dirname $(readlink -f $0))/..
 cat > ${dockerfile} <<-END_OF_DOCKERFILE
 FROM ${image}
 RUN \
-	echo "${user}:x:${uid}:${gid}:,,,:/home/${user}:/bin/bash" >> /etc/passwd && \
-	echo "${user}:x:${uid}:" >> /etc/group && \
+	echo "$(getent passwd $(id -u))" >> /etc/passwd && \
+	echo "$(getent group $(id -g))" >> /etc/group && \
 	echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${user} && \
 	chmod 0440 /etc/sudoers.d/${user}
 WORKDIR /home/${user}
