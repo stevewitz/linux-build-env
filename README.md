@@ -6,7 +6,7 @@ There are several Dockerfile files that may be found in the top-level directory 
 that are used to build various images.
 
 It is expected that a docker volume exists that is named in the form of `libraries-${arch}-${distro}`
-(e.g., `libraries-arm64-xeniel`). It must contain all of the external libraries that are used
+(e.g., `libraries-arm64-xenial`). It must contain all of the external libraries that are used
 to build platform. It will automatically be mounted as `/opt/local/Libraries-${arch}` (e.g.,
 `/opt/local/Libraries-arm64`). In addition, your home directory will also automatically be mounted in
 the docker container. Here is an example of starting an instance of Ubuntu 16.04 (Xenial) for ARM64:
@@ -19,7 +19,7 @@ thus allowing native ARM executables to be run within the environment, eliminati
 
 Once you are running inside of the docker shell, make your way to the platform repository. Create
 a directory called `build`. From within there, create another directory corresponding to the
-distruciton/architecture for which you will build (e.g., `xenial` or `xenial-arm64`). This will allow
+distro/architecture for which you will build (e.g., `xenial` or `xenial-arm64`). This will allow
 you to keep the builds separate. You can then run `cmake` to configure the build. For 32-bit builds,
 use `arm32` instead of `arm64`:
 ```
@@ -28,7 +28,7 @@ use `arm32` instead of `arm64`:
 Alternately, to build the external libraries that seem to be distro-specific, go to the top-level of
 this repo, create a `build` directory, go into that directory, then run:
 ```
-  $ ../scripts/leap_libraries
+  $ ../scripts/leap-libraries
 ```
 Currently, this builds boost, autowiring, and the various external leap* libraries. If a directory with
 the specified version already exists, it will not try to rebuild it (unless a dependency was rebuilt).
