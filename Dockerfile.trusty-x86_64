@@ -3,6 +3,7 @@ FROM ubuntu:trusty
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-get install -y \
   build-essential \
   ccache \
+  ninja-build \
   curl \
   libncurses5-dev \
   libdbus-1-dev \
@@ -13,6 +14,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-g
   git-core \
   pkg-config \
   python \
+  mono-mcs \
+  openjdk-7-jdk \
   sudo \
   vim-nox
 RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.7/cmake-3.7.2.tar.gz && tar xfz cmake-3.7.2.tar.gz && cd cmake-3.7.2 && ./configure && make -j 4 && make install && cd /tmp && rm -fr cmake-3.7.2*)
