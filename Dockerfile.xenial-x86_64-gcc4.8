@@ -1,0 +1,29 @@
+FROM ubuntu:xenial
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-get install -y \
+  build-essential \
+  ccache \
+  curl \
+  libncurses5-dev \
+  libdbus-1-dev \
+  libgl1-mesa-dev \
+  libglu1-mesa-dev \
+  libglu1-mesa-dev \
+  libxi-dev \
+  g++-4.8 \
+  git-core \
+  pkg-config \
+  libtool-bin \
+  automake \
+  byacc \
+  python \
+  sudo \
+
+  vim-nox
+RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.7/cmake-3.7.2.tar.gz && tar xfz cmake-3.7.2.tar.gz && cd cmake-3.7.2 && ./configure && make -j 8 && make install && cd /tmp && rm -fr cmake-3.7.2*)
+RUN update-alternatives --install /usr/bin/gcc cc /usr/bin/gcc-4.8 40 && \
+    update-alternatives --auto cc && \
+    update-alternatives --install /usr/bin/cpp cpp /usr/bin/cpp-4.8 40 && \
+    update-alternatives --auto cpp && \
+    update-alternatives --install /usr/bin/g++ c++ /usr/bin/g++-4.8 40 && \
+    update-alternatives --auto c++
