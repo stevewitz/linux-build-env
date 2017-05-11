@@ -30,7 +30,7 @@ RUN curl -sL https://releases.linaro.org/components/toolchain/binaries/4.9-2017.
       --slave /usr/bin/aarch64-linux-gnu-strip aarch64-linux-gnu-strip /opt/gcc-linaro-4.9.4-2017.01-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-strip && \
     update-alternatives --auto aarch64-linux-gnu-gcc && \
     (cd /opt/gcc-linaro-4.9.4-2017.01-x86_64_aarch64-linux-gnu/libc/usr/lib64 && ln /lib/aarch64-linux-gnu/libdbus-1.so.3.8.13 libdbus-1.so)
-RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.7/cmake-3.7.2.tar.gz && tar xfz cmake-3.7.2.tar.gz && cd cmake-3.7.2 && ./configure && make -j 4 && make install && cd /tmp && rm -fr cmake-3.7.2* )
+RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.sh && chmod u+x cmake*.sh && ./cmake-3.7.2-Linux-x86_64.sh --skip-license --prefix=/usr/local && rm -f cmake* )
 ADD bin/qemu-aarch64-static /usr/bin/qemu-aarch64-static
 ENV ARCH arm64
 ENV CROSS_COMPILE aarch64-linux-gnu-

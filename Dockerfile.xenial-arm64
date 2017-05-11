@@ -17,7 +17,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-g
   python \
   sudo \
   vim-nox
-RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.7/cmake-3.7.2.tar.gz && tar xfz cmake-3.7.2.tar.gz && cd cmake-3.7.2 && ./configure && make -j 4 && make install && cd /tmp && rm -fr cmake-3.7.2* )
+RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.sh && chmod u+x cmake*.sh && ./cmake-3.7.2-Linux-x86_64.sh --skip-license --prefix=/usr/local && rm -f cmake* )
 ADD bin/qemu-aarch64-static /usr/bin/qemu-aarch64-static
 RUN update-alternatives --install /usr/bin/aarch64-linux-gnu-gcc aarch64-linux-gnu-gcc /usr/bin/aarch64-linux-gnu-gcc-4.9 60 --slave /usr/bin/aarch64-linux-gnu-g++ aarch64-linux-gnu-g++ /usr/bin/aarch64-linux-gnu-g++-4.9 && update-alternatives --auto aarch64-linux-gnu-gcc
 ENV ARCH arm64
