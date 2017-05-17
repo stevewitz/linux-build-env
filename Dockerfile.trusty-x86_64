@@ -4,6 +4,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-g
   build-essential \
   ccache \
   ninja-build \
+  valgrind \
+  gdb \
   curl \
   libncurses5-dev \
   libdbus-1-dev \
