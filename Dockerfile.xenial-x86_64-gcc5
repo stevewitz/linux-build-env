@@ -3,21 +3,20 @@ FROM ubuntu:xenial
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-get install -y \
   build-essential \
   ccache \
-  ninja-build \
-  valgrind \
   curl \
-  libncurses5-dev \
+  g++ \
+  git-core \
   libdbus-1-dev \
   libgl1-mesa-dev \
   libglu1-mesa-dev \
-  libglu1-mesa-dev \
+  libncurses5-dev \
   libxi-dev \
-  g++ \
-  git-core \
+  mono-mcs \
+  ninja-build \
+  openjdk-8-jdk \
   pkg-config \
   python \
-  mono-mcs \
-  openjdk-8-jdk \
   sudo \
+  valgrind \
   vim-nox
 RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.sh && chmod u+x cmake*.sh && ./cmake-3.7.2-Linux-x86_64.sh --skip-license --prefix=/usr/local && rm -f cmake* )
