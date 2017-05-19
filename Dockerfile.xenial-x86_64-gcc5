@@ -1,6 +1,8 @@
 FROM ubuntu:xenial
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-get install -y \
+  autoconf \
+  automake \
   build-essential \
   ccache \
   curl \
@@ -11,6 +13,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-g
   libglu1-mesa-dev \
   libncurses5-dev \
   libxi-dev \
+  libtool-bin \
   mono-mcs \
   ninja-build \
   openjdk-8-jdk \
