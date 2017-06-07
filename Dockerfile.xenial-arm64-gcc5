@@ -3,32 +3,31 @@ FROM ubuntu:xenial
 ADD sources.list.xenial.arm64 /tmp/sources.list.arm64
 RUN sed -i.bak "s/\([bc]\) http/\1 [arch=amd64] http/g" /etc/apt/sources.list && cat /tmp/sources.list.arm64 >> /etc/apt/sources.list && rm /tmp/sources.list.arm64 && dpkg --add-architecture arm64
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-get install -y \
+  automake \
   build-essential \
+  byacc \
   ccache \
-  ninja-build \
   curl \
-  libncurses5-dev \
+  g++-5-aarch64-linux-gnu \
+  git-core \
   libdbus-1-dev \
   libdbus-1-dev:arm64 \
   libgl1-mesa-dev:arm64 \
   libglu1-mesa-dev:arm64 \
-  libglu1-mesa-dev:arm64 \
-  libxi-dev:arm64 \
+  libncurses5-dev \
   libpcre++-dev:arm64 \
   libpcre++0v5:arm64 \
-  g++-5-aarch64-linux-gnu \
   libtool-bin \
+  libxi-dev:arm64 \
   m4 \
-  automake \
-  byacc \
-  yodl \
-  git-core \
+  mono-mcs \
+  ninja-build \
+  openjdk-8-jdk:arm64 \
   pkg-config \
   python \
-  mono-mcs \
-  openjdk-8-jdk \
   sudo \
   vim-nox
+  yodl \
 RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.sh && chmod u+x cmake*.sh && ./cmake-3.7.2-Linux-x86_64.sh --skip-license --prefix=/usr/local && rm -f cmake* )
 ADD bin/qemu-aarch64-static /usr/bin/qemu-aarch64-static
 RUN update-alternatives --install /usr/bin/aarch64-linux-gnu-gcc aarch64-linux-gnu-gcc /usr/bin/aarch64-linux-gnu-gcc-5 60 --slave /usr/bin/aarch64-linux-gnu-g++ aarch64-linux-gnu-g++ /usr/bin/aarch64-linux-gnu-g++-5 && update-alternatives --auto aarch64-linux-gnu-gcc
