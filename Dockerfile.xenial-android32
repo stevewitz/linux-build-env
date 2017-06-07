@@ -1,0 +1,36 @@
+FROM ubuntu:xenial
+
+RUN dpkg --add-architecture i386
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-get install -y \
+  build-essential \
+  curl \
+  libtool-bin \
+  m4 \
+  automake \
+  byacc \
+  yodl \
+  git-core \
+  pkg-config \
+  python \
+  sudo \
+  vim-nox \
+  clang-3.5 \
+  openjdk-8-jre-headless \
+  openjdk-8-jdk-headless \
+  libncurses5:i386 \
+  libstdc++6:i386 \
+  zlib1g:i386
+
+RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.sh && chmod u+x cmake*.sh && ./cmake-3.7.2-Linux-x86_64.sh --skip-license --prefix=/usr/local && rm -f cmake* )
+ADD bin/qemu-aarch64-static /usr/bin/qemu-aarch64-static
+
+RUN ( mkdir -p /opt/local )
+RUN ( cd /opt/local && curl -sLO https://dl.google.com/android/repository/android-ndk-r14b-linux-x86_64.zip && unzip -q android-ndk-r14b-linux-x86_64.zip && rm android-ndk-r14b-linux-x86_64.zip && cd android-ndk-r14b && build/tools/make_standalone_toolchain.py --arch arm --api 21 --stl libc++ --unified-headers --force --install-dir=/opt/local/android-standalone-toolchain )
+
+RUN ( cd /opt/local && curl -sLO https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip && unzip -q sdk-tools-linux-3859397.zip -d android-sdk && rm sdk-tools-linux-3859397.zip && yes | ./android-sdk/tools/bin/sdkmanager "platforms;android-19" && yes | ./android-sdk/tools/bin/sdkmanager "build-tools;19.1.0" )
+
+ENV ANDROID_HOME /opt/local/android-sdk
+ENV NDK_ROOT /opt/local/android-ndk-r14b
+ENV NDK_TOOLCHAIN /opt/local/android-standalone-toolchain
+
+ENV PATH ${NDK_TOLCHAIN}/bin:${PATH}
