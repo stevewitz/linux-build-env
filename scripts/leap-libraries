@@ -83,8 +83,12 @@ boost_build() {
       ./bootstrap.sh
       sudo ./b2 --prefix=${INSTALL_PATH} --build-dir=./tmp link=static threading=multi variant=release cflags=-fPIC cxxflags=-fPIC toolset=gcc-arm target-os=linux --without-mpi --without-python install
     else
+      export PYTHON=python3
+      export PYTHON_VERSION=$($PYTHON -c "import sys; print('{}.{}'.format(*sys.version_info))")
+
+      sed -ibak "s,using python.*,using python : $PYTHON_VERSION : $(which $PYTHON) : $($PYTHON -c 'from __future__ import print_function; import distutils.sysconfig; print(distutils.sysconfig.get_python_inc(True))') : $($PYTHON -c 'from __future__ import print_function; import sys; print(sys.prefix)')/lib ;," bootstrap.sh
       ./bootstrap.sh
-      sudo ./b2 --prefix=${INSTALL_PATH} --build-dir=./tmp link=static threading=multi variant=release cflags=-fPIC cxxflags=-fPIC target-os=linux --without-mpi --without-python install
+      sudo ./b2 --prefix=${INSTALL_PATH} --build-dir=./tmp python=$PYTHON_VERSION --with-python --with-atomic --with-chrono --with-date_time --with-filesystem --with-locale --with-program_options --with-thread --with-regex link=static threading=multi variant=release cflags=-fPIC cxxflags=-fPIC target-os=linux install
     fi
     cd ..
   else
@@ -92,7 +96,7 @@ boost_build() {
   fi
 }
 
-boost_build 1.63.0
+boost_build 1.64.0
 leap_build "autowiring" 1.0.3 "AutowiringTest"
 leap_build "leapserial" 0.4.0 "LeapSerialTest"
 
