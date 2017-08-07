@@ -21,7 +21,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-g
   git-core \
   pkg-config \
   python \
-  python3-dev:arm64 \
+  python3:arm64 python3-dev:arm64\
   mono-mcs \
   openjdk-8-jdk \
   sudo \
