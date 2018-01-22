@@ -1,4 +1,4 @@
-#!/bin/sh -xe
+#!/bin/sh -e
 
 echo "This script remains for reference for cross-builds of a handful of libraries"
 echo "To build other external libraries, see the leapmotion/external-libraries repo"
