@@ -1,5 +1,7 @@
-#!/bin/sh
+#!/bin/sh -e
 
+echo "This script remains for reference for cross-builds of a handful of libraries"
+echo "To build other external libraries, see the leapmotion/external-libraries repo"
 if [ "$ARCH" = "arm32" ]; then
   export CROSS_COMPILE=arm-linux-gnueabihf-
   INSTALL_DIR=/opt/local/Libraries-arm32
@@ -97,12 +99,12 @@ boost_build() {
 }
 
 boost_build 1.64.0
-leap_build "autowiring" 1.0.3 "AutowiringTest"
-leap_build "leapserial" 0.4.0 "LeapSerialTest"
+leap_build "autowiring" 1.0.5 "AutowiringTest"
+leap_build "leapserial" 0.5.1 "LeapSerialTest"
 
 if [ $autowiring_CHANGED ] || [ $LeapSerial_CHANGED ]; then
  autowiring_LeapSerial_CHANGED=true
 fi
-leap_build "LeapResource" 0.1.1 "LeapResourceTest" $autowiring_LeapSerial_CHANGED
-leap_build "LeapHTTP" 0.1.1 "LeapHTTPTest" $autowiring_CHANGED
-leap_build "LeapIPC" 0.1.4 "LeapIPCTest" $autowiring_LeapSerial_CHANGED
+leap_build "LeapResource" 0.1.3 "LeapResourceTest" $autowiring_LeapSerial_CHANGED
+leap_build "LeapHTTP" 0.1.3 "LeapHTTPTest" $autowiring_CHANGED
+leap_build "LeapIPC" 0.1.7 "LeapIPCTest" $autowiring_LeapSerial_CHANGED
