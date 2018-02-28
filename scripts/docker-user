@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
+cd $(dirname $(readlink -f $0))/..
 
 image=${@: -1}
 arch=$(echo ${image} | cut -d\- -f2-)
@@ -9,7 +10,12 @@ variant=$(echo ${arch} | cut -d\- -f2-)
 if [ "${arch}" = "${variant}" ]; then
   variant=""
 elif [[ "${variant}" ]]; then
-  variant="-${variant}"
+  if [[ "${variant}" == rev* ]]; then
+    hyphen_revision="-${variant}"
+    variant=""
+  else
+    variant="-${variant}"
+  fi
 fi
 arch=$(echo ${arch} | cut -d\- -f1)
 if [ "${arch}" = "x86_64" ]; then
@@ -27,16 +33,15 @@ if [[ -z $(docker volume ls | tail -n +2 | awk '{print $2}' | grep ${libraries} 
   docker volume create --name ${libraries} || exit
 fi
 dockerfile=.Dockerfile.${image}-${user}
-cd $(dirname $(readlink -f $0))/..
 cat > ${dockerfile} <<-END_OF_DOCKERFILE
 FROM ${image}
 RUN \
 	echo "$(getent passwd $(id -u))" >> /etc/passwd && \
-	echo "$(getent group $(id -g))" >> /etc/group && \
+	echo "$(getent group $(id -g))" | tr ' ' '-' >> /etc/group && \
 	echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${user} && \
 	chmod 0440 /etc/sudoers.d/${user}
 WORKDIR /home/${user}
 USER ${user}
 END_OF_DOCKERFILE
 docker build -t ${image}-${user} -f ${dockerfile} . > /dev/null
-docker run -v ${libraries}:/opt/local/Libraries${hyphen_arch} -v /home/${USER}:/home/${USER} --hostname="${distro}${hyphen_arch}${variant}-${user}" $@-${user}
+docker run --tty -v ${libraries}:/opt/local/Libraries${hyphen_arch} -v /home/${USER}:/home/${USER} --hostname="${distro}${hyphen_arch}${hyphen_revision}${variant}-${user}" $@-${user}
