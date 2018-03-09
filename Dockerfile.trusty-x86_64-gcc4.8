@@ -1,0 +1,31 @@
+FROM ubuntu:trusty
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-get install -y \
+  build-essential \
+  ccache \
+  curl \
+  libncurses5-dev \
+  libdbus-1-dev \
+  libgl1-mesa-dev \
+  libglu1-mesa-dev \
+  libglu1-mesa-dev \
+  libxi-dev \
+  g++-4.8 \
+  binutils-2.26 \
+  git-core \
+  pkg-config \
+  libtool \
+  automake \
+  byacc \
+  python \
+  sudo \
+  vim-nox
+RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.sh && chmod u+x cmake*.sh && ./cmake-3.10.2-Linux-x86_64.sh --skip-license --prefix=/usr/local && rm -f cmake* )
+RUN update-alternatives --install /usr/bin/gcc cc /usr/bin/gcc-4.8 40 && \
+    update-alternatives --auto cc && \
+    update-alternatives --install /usr/bin/cpp cpp /usr/bin/cpp-4.8 40 && \
+    update-alternatives --auto cpp && \
+    update-alternatives --install /usr/bin/g++ c++ /usr/bin/g++-4.8 40 && \
+    update-alternatives --auto c++ && \
+    update-alternatives --install /usr/bin/ld ld /usr/bin/ld-2.26 40 && \
+    update-alternatives --auto ld
