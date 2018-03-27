@@ -24,6 +24,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-g
   mono-mcs \
   ninja-build \
   openjdk-8-jdk \
+  patchelf \
   pkg-config \
   python \
   python3:arm64 \
