@@ -6,6 +6,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-g
   autoconf \
   build-essential \
   curl \
+  openjdk-8-jdk:armhf \
   libc6:i386 \
   libncurses5-dev \
   libdbus-1-dev \
