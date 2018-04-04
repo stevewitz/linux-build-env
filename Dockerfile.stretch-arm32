@@ -1,0 +1,28 @@
+FROM debian:stretch
+
+ADD sources.list.stretch.armhf /tmp/sources.list.armhf
+RUN sed -i.bak "s/\([bc]\) http/\1 [arch=amd64,i386] http/g" /etc/apt/sources.list && cat /tmp/sources.list.armhf >> /etc/apt/sources.list && rm /tmp/sources.list.armhf && dpkg --add-architecture armhf && dpkg --add-architecture i386
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-get install -y \
+  autoconf \
+  build-essential \
+  curl \
+  libc6:i386 \
+  libncurses5-dev \
+  libdbus-1-dev \
+  libdbus-1-dev:armhf \
+  libgl1-mesa-dev:armhf \
+  libglu1-mesa-dev:armhf \
+  libglu1-mesa-dev:armhf \
+  libstdc++6:i386 \
+  libtool-bin \
+  libxi-dev:armhf \
+  m4 \
+  g++-arm-linux-gnueabihf \
+  git-core \
+  pkg-config \
+  python \
+  sudo \
+  vim-nox
+RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.10/cmake-3.10.3-Linux-x86_64.sh && chmod u+x cmake*.sh && ./cmake-3.10.3-Linux-x86_64.sh --skip-license --prefix=/usr/local && rm -f cmake* )
+ADD bin/qemu-arm-static /usr/bin/qemu-arm-static
+ENV ARCH armhf
