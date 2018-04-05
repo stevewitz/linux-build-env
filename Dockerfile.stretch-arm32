@@ -5,6 +5,7 @@ RUN sed -i.bak "s/\([bc]\) http/\1 [arch=amd64,i386] http/g" /etc/apt/sources.li
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-get install -y \
   autoconf \
   build-essential \
+  ccache \
   curl \
   openjdk-8-jdk:armhf \
   libc6:i386 \
