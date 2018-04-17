@@ -34,5 +34,6 @@ ENV ANDROID_HOME /opt/local/android-sdk
 
 RUN ( cd /opt/local && curl -sLO https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip && unzip -q android-ndk-r16b-linux-x86_64.zip && rm android-ndk-r16b-linux-x86_64.zip && cd android-ndk-r16b && build/tools/make_standalone_toolchain.py --arch arm --api 21 --stl=libc++ --force --install-dir=/opt/local/android-standalone-toolchain )
 ENV NDK_ROOT /opt/local/android-ndk-r16b
-ENV NDK_TOOLCHAIN /opt/local/android-standalone-toolchain
-ENV PATH ${NDK_TOOLCHAIN}/bin:${PATH}
+ENV NDK_TOOLCHAIN arm-linux-androideabi-clang
+ENV ANDROID_STANDALONE_TOOLCHAIN /opt/local/android-standalone-toolchain
+ENV PATH ${ANDROID_STANDALONE_TOOLCHAIN}/bin:${PATH}
