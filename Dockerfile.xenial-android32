@@ -29,7 +29,7 @@ ADD bin/qemu-aarch64-static /usr/bin/qemu-aarch64-static
 
 RUN ( mkdir -p /opt/local )
 
-RUN ( cd /opt/local && curl -sLO https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip && unzip -q sdk-tools-linux-3859397.zip -d android-sdk && rm sdk-tools-linux-3859397.zip && yes | ./android-sdk/tools/bin/sdkmanager "platforms;android-19" && yes | ./android-sdk/tools/bin/sdkmanager "build-tools;19.1.0" )
+RUN ( cd /opt/local && curl -sLO https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip && unzip -q sdk-tools-linux-3859397.zip -d android-sdk && rm sdk-tools-linux-3859397.zip && yes | ./android-sdk/tools/bin/sdkmanager "platforms;android-21;android-19" && yes | ./android-sdk/tools/bin/sdkmanager "build-tools;21.0.0;19.1.0" )
 ENV ANDROID_HOME /opt/local/android-sdk
 
 RUN ( cd /opt/local && curl -sLO https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip && unzip -q android-ndk-r16b-linux-x86_64.zip && rm android-ndk-r16b-linux-x86_64.zip && cd android-ndk-r16b && build/tools/make_standalone_toolchain.py --arch arm --api 21 --stl=libc++ --force --install-dir=/opt/local/android-standalone-toolchain )
