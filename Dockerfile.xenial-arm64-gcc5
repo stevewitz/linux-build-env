@@ -27,8 +27,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-g
   patchelf \
   pkg-config \
   python \
-  python3:arm64 \
-  python3-dev:arm64\
   sudo \
   vim-nox \
   yodl \
