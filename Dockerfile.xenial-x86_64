@@ -17,8 +17,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-g
   python \
   sudo \
   vim-nox \
-  graphviz \
   doxygen
+
 RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.sh && chmod u+x cmake*.sh && ./cmake-3.10.2-Linux-x86_64.sh --skip-license --prefix=/usr/local && rm -f cmake* )
 RUN update-alternatives --install /usr/bin/gcc cc /usr/bin/gcc-4.9 40 && \
     update-alternatives --auto cc && \
