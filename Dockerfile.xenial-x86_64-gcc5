@@ -22,6 +22,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-g
   python \
   sudo \
   valgrind \
-  vim-nox
+  vim-nox \
+  doxygen
 
 RUN (cd /tmp && curl -sLO https://cmake.org/files/v3.11/cmake-3.11.1-Linux-x86_64.sh && chmod u+x cmake*.sh && ./cmake-3.11.1-Linux-x86_64.sh --skip-license --prefix=/usr/local && rm -f cmake* )
